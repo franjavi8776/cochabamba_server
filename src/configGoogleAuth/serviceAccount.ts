@@ -14,8 +14,6 @@ const {
   FIREBASE_UNIVERSE_DOMAIN,
 } = process.env;
 
-const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
-
 interface ServiceAccount {
   type: string | undefined;
   project_id: string | undefined;
@@ -32,7 +30,7 @@ interface ServiceAccount {
 
 const serviceAccount: ServiceAccount = {
   type: FIREBASE_TYPE,
-  project_id: FIREBASE_PROJECT_ID,
+  project_id: "cochabamba-3a132",
   private_key_id: FIREBASE_PRIVATE_KEY_ID,
   private_key: FIREBASE_PRIVATE_KEY,
   client_email: FIREBASE_CLIENT_EMAIL,
