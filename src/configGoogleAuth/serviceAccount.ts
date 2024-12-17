@@ -3,7 +3,6 @@ dotenv.config();
 
 const {
   FIREBASE_TYPE,
-  FIREBASE_PROJECT_ID,
   FIREBASE_PRIVATE_KEY_ID,
   FIREBASE_PRIVATE_KEY,
   FIREBASE_CLIENT_EMAIL,
@@ -14,6 +13,8 @@ const {
   FIREBASE_CLIENT_URL,
   FIREBASE_UNIVERSE_DOMAIN,
 } = process.env;
+
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID;
 
 interface ServiceAccount {
   type: string | undefined;
@@ -31,7 +32,7 @@ interface ServiceAccount {
 
 const serviceAccount: ServiceAccount = {
   type: FIREBASE_TYPE,
-  project_id: FIREBASE_PROJECT_ID || "cochabamba-3a132",
+  project_id: FIREBASE_PROJECT_ID,
   private_key_id: FIREBASE_PRIVATE_KEY_ID,
   private_key: FIREBASE_PRIVATE_KEY,
   client_email: FIREBASE_CLIENT_EMAIL,
