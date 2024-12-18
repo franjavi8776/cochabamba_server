@@ -26,20 +26,20 @@ interface ServiceAccount {
   token_uri: string | undefined;
   auth_provider_x509_cert_url: string | undefined;
   client_x509_cert_url: string | undefined;
-  universe_domain: string | undefined;
+  universe_domain?: string | undefined;
 }
 
 const serviceAccount: ServiceAccount = {
-  type: FIREBASE_TYPE,
-  project_id: FIREBASE_PROJECT_ID,
-  private_key_id: FIREBASE_PRIVATE_KEY_ID,
-  private_key: FIREBASE_PRIVATE_KEY,
-  client_email: FIREBASE_CLIENT_EMAIL,
-  client_id: FIREBASE_CLIENT_ID,
-  auth_uri: FIREBASE_AUTH_URI,
-  token_uri: FIREBASE_TOKEN_URI,
-  auth_provider_x509_cert_url: FIREBASE_AUTH_PROVIDER,
-  client_x509_cert_url: FIREBASE_CLIENT_URL,
+  type: FIREBASE_TYPE || "",
+  project_id: FIREBASE_PROJECT_ID || "",
+  private_key_id: FIREBASE_PRIVATE_KEY_ID || "",
+  private_key: FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n") || "",
+  client_email: FIREBASE_CLIENT_EMAIL || "",
+  client_id: FIREBASE_CLIENT_ID || "",
+  auth_uri: FIREBASE_AUTH_URI || "",
+  token_uri: FIREBASE_TOKEN_URI || "",
+  auth_provider_x509_cert_url: FIREBASE_AUTH_PROVIDER || "",
+  client_x509_cert_url: FIREBASE_CLIENT_URL || "",
   universe_domain: FIREBASE_UNIVERSE_DOMAIN,
 };
 
