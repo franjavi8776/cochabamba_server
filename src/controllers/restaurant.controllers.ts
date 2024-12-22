@@ -231,23 +231,17 @@ export const createRestaurant = async (req: Request, res: Response) => {
 
     let images: string[] = [];
 
-    // if (Array.isArray(req.files)) {
-    //   images = req.files.map((file: Express.Multer.File) => file.filename);
-    // }
     if (Array.isArray(req.files)) {
       for (let i = 0; i < req.files.length; i++) {
         const file = req.files[i] as Express.Multer.File;
 
-        // Convertir buffer a base64
         const base64File = file.buffer.toString("base64");
         const dataUri = `data:${file.mimetype};base64,${base64File}`;
 
-        // Subir cada archivo a Cloudinary
         const uploadResult = await cloudinary.uploader.upload(dataUri, {
-          folder: "restaurants_images", // Carpeta donde se guardarán las imágenes
+          folder: "restaurants_images",
         });
 
-        // Agregar la URL segura de la imagen subida a Cloudinary al array de imágenes
         images.push(uploadResult.secure_url);
       }
     }
@@ -314,19 +308,10 @@ export const updatedRestaurant = async (req: Request, res: Response) => {
 
     let images: string[] = restaurant1.images;
 
-    // if (Array.isArray(req.files)) {
-    //   images = [
-    //     ...images,
-    //     ...req.files.map((file: Express.Multer.File) => file.filename),
-    //   ];
-    // } else {
-    //   console.warn("No se recibieron archivos o el formato es incorrecto.");
-    // }
     if (Array.isArray(req.files)) {
       const imagePromises = req.files.map(
         (file: Express.Multer.File) =>
           new Promise<string>((resolve, reject) => {
-            // Convertir buffer a base64
             const base64File = file.buffer.toString("base64");
             const dataUri = `data:${file.mimetype};base64,${base64File}`;
 
@@ -346,7 +331,7 @@ export const updatedRestaurant = async (req: Request, res: Response) => {
 
       try {
         const newImages = await Promise.all(imagePromises);
-        images = [...images, ...newImages]; // Agrega las nuevas imágenes a las existentes
+        images = [...images, ...newImages];
       } catch (error) {
         console.error("Error uploading images to Cloudinary:", error);
         res.status(500).json({ message: "Error uploading images" });
