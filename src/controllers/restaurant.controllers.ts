@@ -238,8 +238,12 @@ export const createRestaurant = async (req: Request, res: Response) => {
       for (let i = 0; i < req.files.length; i++) {
         const file = req.files[i] as Express.Multer.File;
 
+        // Convertir buffer a base64
+        const base64File = file.buffer.toString("base64");
+        const dataUri = `data:${file.mimetype};base64,${base64File}`;
+
         // Subir cada archivo a Cloudinary
-        const uploadResult = await cloudinary.uploader.upload(file.path, {
+        const uploadResult = await cloudinary.uploader.upload(dataUri, {
           folder: "restaurants_images", // Carpeta donde se guardarán las imágenes
         });
 
@@ -322,7 +326,11 @@ export const updatedRestaurant = async (req: Request, res: Response) => {
       const imagePromises = req.files.map(
         (file: Express.Multer.File) =>
           new Promise<string>((resolve, reject) => {
-            cloudinary.uploader.upload(file.path, (error, result) => {
+            // Convertir buffer a base64
+            const base64File = file.buffer.toString("base64");
+            const dataUri = `data:${file.mimetype};base64,${base64File}`;
+
+            cloudinary.uploader.upload(dataUri, (error, result) => {
               if (error) {
                 reject(error);
               } else {
