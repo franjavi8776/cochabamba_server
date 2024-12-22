@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Restaurant } from "../models/Restaurant";
 import { sequelize } from "../db";
 import { QueryTypes, Op } from "sequelize";
+import cloudinary from "../cloudinary_config/cloudinary";
 
 export const getRestaurants = async (req: Request, res: Response) => {
   try {
@@ -53,9 +54,7 @@ export const getRestaurants = async (req: Request, res: Response) => {
     const restaurantsWithImages = restaurants.map((restaurant) => {
       const restaurantData = restaurant.toJSON() as any;
 
-      const imageUrls = restaurantData.images.map((image: string) => {
-        return `http://localhost:3000/uploads/${image}`;
-      });
+      const imageUrls = restaurantData.images.map((image: string) => image);
 
       const restaurant1 = restaurant.get();
 
@@ -104,9 +103,7 @@ export const getRestaurantsByUserId = async (req: Request, res: Response) => {
     const restaurantsWithImages = restaurants.map((restaurant) => {
       const restaurantData = restaurant.toJSON();
 
-      const imageUrls = restaurantData.images.map((image: string) => {
-        return `http://localhost:3000/uploads/${image}`;
-      });
+      const imageUrls = restaurantData.images.map((image: string) => image);
 
       return {
         ...restaurantData,
@@ -180,9 +177,7 @@ export const getRestaurantsByCategory = async (req: Request, res: Response) => {
     const restaurantsWithImages = restaurants.map((restaurant) => {
       const restaurantData = restaurant.toJSON() as any;
 
-      const imageUrls = restaurantData.images.map((image: string) => {
-        return `http://localhost:3000/uploads/${image}`;
-      });
+      const imageUrls = restaurantData.images.map((image: string) => image);
 
       const averageStars = ratingsMap.get(restaurant.get("id")) || null;
 
@@ -236,8 +231,21 @@ export const createRestaurant = async (req: Request, res: Response) => {
 
     let images: string[] = [];
 
+    // if (Array.isArray(req.files)) {
+    //   images = req.files.map((file: Express.Multer.File) => file.filename);
+    // }
     if (Array.isArray(req.files)) {
-      images = req.files.map((file: Express.Multer.File) => file.filename);
+      for (let i = 0; i < req.files.length; i++) {
+        const file = req.files[i] as Express.Multer.File;
+
+        // Subir cada archivo a Cloudinary
+        const uploadResult = await cloudinary.uploader.upload(file.path, {
+          folder: "restaurants_images", // Carpeta donde se guardarán las imágenes
+        });
+
+        // Agregar la URL segura de la imagen subida a Cloudinary al array de imágenes
+        images.push(uploadResult.secure_url);
+      }
     }
 
     const restaurant = await Restaurant.create({
@@ -301,16 +309,44 @@ export const updatedRestaurant = async (req: Request, res: Response) => {
       : restaurant1.categories;
 
     let images: string[] = restaurant1.images;
+
+    // if (Array.isArray(req.files)) {
+    //   images = [
+    //     ...images,
+    //     ...req.files.map((file: Express.Multer.File) => file.filename),
+    //   ];
+    // } else {
+    //   console.warn("No se recibieron archivos o el formato es incorrecto.");
+    // }
     if (Array.isArray(req.files)) {
-      images = [
-        ...images,
-        ...req.files.map((file: Express.Multer.File) => file.filename),
-      ];
-    } else {
-      console.warn("No se recibieron archivos o el formato es incorrecto.");
+      const imagePromises = req.files.map(
+        (file: Express.Multer.File) =>
+          new Promise<string>((resolve, reject) => {
+            cloudinary.uploader.upload(file.path, (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                if (result?.secure_url) {
+                  resolve(result?.secure_url);
+                } else {
+                  reject(new Error("URL de la imagen no disponible"));
+                }
+              }
+            });
+          })
+      );
+
+      try {
+        const newImages = await Promise.all(imagePromises);
+        images = [...images, ...newImages]; // Agrega las nuevas imágenes a las existentes
+      } catch (error) {
+        console.error("Error uploading images to Cloudinary:", error);
+        res.status(500).json({ message: "Error uploading images" });
+        return;
+      }
     }
 
-    console.log(restaurant);
+    //console.log(restaurant);
 
     await restaurant.update({
       name: name || restaurant1.name,
