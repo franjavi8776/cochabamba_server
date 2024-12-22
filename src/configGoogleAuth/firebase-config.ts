@@ -1,8 +1,12 @@
 import * as admin from "firebase-admin";
 import * as serviceAccount from "./serviceAccount.json";
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-});
+try {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  });
+} catch (error) {
+  console.error("Firebase admin initialization error", error);
+}
 
 export default admin;
