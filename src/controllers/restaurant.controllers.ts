@@ -8,8 +8,8 @@ export const getRestaurants = async (req: Request, res: Response) => {
   try {
     const { search, page, limit } = req.query;
 
-    const pageNumber = parseInt(page as string, 10);
-    const pageLimit = parseInt(limit as string, 10);
+    const pageNumber = parseInt(page as string, 10) || 1;
+    const pageLimit = parseInt(limit as string, 10) || 10;
     const offset = (pageNumber - 1) * pageLimit;
 
     const restaurants = await Restaurant.findAll({
@@ -27,7 +27,7 @@ export const getRestaurants = async (req: Request, res: Response) => {
       `
       SELECT
           "Restaurant"."id",
-          AVG("comments"."stars") AS "averageStars"
+          COALESCE(AVG("comments"."stars"),0) AS "averageStars"
       FROM
           "restaurants" AS "Restaurant"
       LEFT OUTER JOIN
