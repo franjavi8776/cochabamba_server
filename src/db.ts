@@ -24,8 +24,8 @@ export const sequelize = new Sequelize(DATABASE_URL, {
   dialectModule: require("pg"),
   dialectOptions: {
     ssl: {
-      require: true, // Indicar que se requiere SSL
-      rejectUnauthorized: false, // Para evitar errores en desarrollo (NO recomendado en producción)
+      require: true,
+      rejectUnauthorized: false,
     },
   },
 });

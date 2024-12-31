@@ -133,6 +133,7 @@ export const getRestaurantsByCategory = async (req: Request, res: Response) => {
 
     const restaurants = await Restaurant.findAll({
       where: {
+        isActive: true,
         categories: {
           [Op.overlap]: categoryArray,
         },
