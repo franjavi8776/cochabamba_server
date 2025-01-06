@@ -163,7 +163,7 @@ export const getTaxisByCategory = async (req: Request, res: Response) => {
       WHERE
           "Taxi"."id" IN (:taxiIds)
       GROUP BY
-          "Restaurant"."id";
+          "Taxi"."id";
     `,
       {
         type: QueryTypes.SELECT,
