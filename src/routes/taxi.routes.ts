@@ -4,6 +4,7 @@ import {
   createTaxi,
   deleteTaxi,
   getTaxis,
+  getTaxisByCategory,
   getTaxisByUserId,
   toggleIsActiveTaxi,
   updatedTaxi,
@@ -14,6 +15,7 @@ const upload = multer({ storage: storage });
 const router = Router();
 
 router.patch("/taxis/isActive/:id", toggleIsActiveTaxi);
+router.get("/taxis/categories", getTaxisByCategory);
 router.get("/taxis", getTaxis);
 router.get("/taxis/:id", getTaxisByUserId);
 router.post("/taxis", upload.array("images"), createTaxi);

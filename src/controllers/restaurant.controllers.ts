@@ -225,6 +225,8 @@ export const createRestaurant = async (req: Request, res: Response) => {
       user_id,
     } = req.body;
 
+    console.log(req.body);
+
     const parsedLocation = JSON.parse(location);
     const parsedOffers = JSON.parse(offers);
     const parseTime = JSON.parse(time);
