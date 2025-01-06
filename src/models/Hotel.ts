@@ -15,25 +15,15 @@ interface Time {
 type Zone = "Este" | "Norte" | "Sur" | "Oeste" | "Central";
 
 type Category =
-  | "Churrasqueria"
-  | "Polleria"
-  | "Mariscos"
-  | "Cochabambina"
-  | "Rapida"
-  | "Alitas"
-  | "Oriental"
-  | "Salteñerias"
-  | "Mexicana"
-  | "Americana"
-  | "Cafes"
-  | "Vegetariana"
-  | "Pizzeria"
-  | "Heladeria"
-  | "Pasteleria"
-  | "Internacional"
-  | "Otros";
+  | "1 Estrella"
+  | "2 Estrellas"
+  | "3 Estrellas"
+  | "4 Estrellas"
+  | "5 Estrellas"
+  | "Hostales"
+  | "Moteles";
 
-interface ProjectRestaurant {
+interface ProjectHotel {
   id: string;
   name: string;
   location: Location;
@@ -51,11 +41,11 @@ interface ProjectRestaurant {
   user_id: string;
 }
 
-interface ProjectRestaurantCreation extends Optional<ProjectRestaurant, "id"> {}
+interface ProjectHotelCreation extends Optional<ProjectHotel, "id"> {}
 
-export const Restaurant = sequelize.define<
-  Model<ProjectRestaurant, ProjectRestaurantCreation>
->("restaurant", {
+export const Hotel = sequelize.define<
+  Model<ProjectHotel, ProjectHotelCreation>
+>("hotel", {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -100,23 +90,13 @@ export const Restaurant = sequelize.define<
   categories: {
     type: DataTypes.ARRAY(
       DataTypes.ENUM(
-        "Churrasqueria",
-        "Polleria",
-        "Mariscos",
-        "Cochabambina",
-        "Rapida",
-        "Alitas",
-        "Oriental",
-        "Salteñerias",
-        "Mexicana",
-        "Americana",
-        "Cafes",
-        "Vegetariana",
-        "Pizzeria",
-        "Heladeria",
-        "Pasteleria",
-        "Internacional",
-        "Otros"
+        "1 Estrella",
+        "2 Estrellas",
+        "3 Estrellas",
+        "4 Estrellas",
+        "5 Estrellas",
+        "Hostales",
+        "Moteles"
       )
     ),
   },

@@ -5,6 +5,13 @@ import "./models/User";
 import "./models/Restaurant";
 import "./models/Comment";
 import "./models/association";
+import "./models/MovieTheater";
+import "./models/Hotel";
+import "./models/Taxi";
+import "./models/Supermarket";
+import "./models/Tourism";
+import "./models/Gym";
+import "./models/Emergency";
 
 dotenv.config();
 

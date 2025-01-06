@@ -1,9 +1,5 @@
 import { Router } from "express";
 import multer from "multer";
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
 import {
   createRestaurant,
   getRestaurants,
@@ -14,7 +10,10 @@ import {
   getRestaurantsByCategory,
 } from "../controllers/restaurant.controllers";
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const router = Router();
+
 router.patch("/restaurants/isActive/:id", toggleIsActiveRestaurant);
 router.get("/restaurants/categories", getRestaurantsByCategory);
 router.get("/restaurants", getRestaurants);

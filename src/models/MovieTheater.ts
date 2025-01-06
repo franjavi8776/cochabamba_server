@@ -14,26 +14,7 @@ interface Time {
 
 type Zone = "Este" | "Norte" | "Sur" | "Oeste" | "Central";
 
-type Category =
-  | "Churrasqueria"
-  | "Polleria"
-  | "Mariscos"
-  | "Cochabambina"
-  | "Rapida"
-  | "Alitas"
-  | "Oriental"
-  | "Salteñerias"
-  | "Mexicana"
-  | "Americana"
-  | "Cafes"
-  | "Vegetariana"
-  | "Pizzeria"
-  | "Heladeria"
-  | "Pasteleria"
-  | "Internacional"
-  | "Otros";
-
-interface ProjectRestaurant {
+interface ProjectMovieTheater {
   id: string;
   name: string;
   location: Location;
@@ -46,16 +27,16 @@ interface ProjectRestaurant {
   web: string;
   time: Time;
   zone: Zone;
-  categories: Category[];
   isActive: boolean;
   user_id: string;
 }
 
-interface ProjectRestaurantCreation extends Optional<ProjectRestaurant, "id"> {}
+interface ProjectMovieTheaterCreation
+  extends Optional<ProjectMovieTheater, "id"> {}
 
-export const Restaurant = sequelize.define<
-  Model<ProjectRestaurant, ProjectRestaurantCreation>
->("restaurant", {
+export const MovieTheater = sequelize.define<
+  Model<ProjectMovieTheater, ProjectMovieTheaterCreation>
+>("movieTheater", {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -96,29 +77,6 @@ export const Restaurant = sequelize.define<
     type: DataTypes.ENUM("Este", "Norte", "Sur", "Oeste", "Central"),
     allowNull: false,
     defaultValue: "Central",
-  },
-  categories: {
-    type: DataTypes.ARRAY(
-      DataTypes.ENUM(
-        "Churrasqueria",
-        "Polleria",
-        "Mariscos",
-        "Cochabambina",
-        "Rapida",
-        "Alitas",
-        "Oriental",
-        "Salteñerias",
-        "Mexicana",
-        "Americana",
-        "Cafes",
-        "Vegetariana",
-        "Pizzeria",
-        "Heladeria",
-        "Pasteleria",
-        "Internacional",
-        "Otros"
-      )
-    ),
   },
   isActive: {
     type: DataTypes.BOOLEAN,

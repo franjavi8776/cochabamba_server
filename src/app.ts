@@ -9,6 +9,13 @@ import loginUserRoutes from "./routes/loginByEmail.routes";
 import loginGoogleRoutes from "./routes/loginByGoogle.routes";
 import restaurantRoutes from "./routes/restaurant.routes";
 import commentRoutes from "./routes/comment.routes";
+import taxiRoutes from "./routes/taxi.routes";
+import movieTheaterRoutes from "./routes/movieTheater.routes";
+import supermarketRoutes from "./routes/supermarket.routes";
+import tourismRoutes from "./routes/tourism.routes";
+import gymRoutes from "./routes/gym.routes";
+import hotelRoutes from "./routes/hotel.routes";
+import emergencyRoutes from "./routes/emergency.routes";
 
 const app = express();
 
@@ -20,6 +27,13 @@ app.use(userRoutes);
 app.use(loginUserRoutes);
 app.use(restaurantRoutes);
 app.use(commentRoutes);
+app.use(taxiRoutes);
+app.use(movieTheaterRoutes);
+app.use(supermarketRoutes);
+app.use(tourismRoutes);
+app.use(gymRoutes);
+app.use(hotelRoutes);
+app.use(emergencyRoutes);
 
 app.use(decodeToken);
 app.use(loginGoogleRoutes);
