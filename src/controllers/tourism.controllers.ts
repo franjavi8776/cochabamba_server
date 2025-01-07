@@ -98,8 +98,6 @@ export const getTourismsByUserId = async (req: Request, res: Response) => {
       },
     });
 
-    //console.log(restaurants);
-
     const tourismsWithImages = tourisms.map((tourism) => {
       const tourismData = tourism.toJSON();
 

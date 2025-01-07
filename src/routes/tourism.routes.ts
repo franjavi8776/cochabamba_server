@@ -17,7 +17,7 @@ const router = Router();
 router.patch("/tourisms/isActive/:id", toggleIsActiveTourism);
 router.get("/tourisms/categories", getTourismsByCategory);
 router.get("/tourisms", getTourisms);
-router.get("/tourisms", getTourismsByUserId);
+router.get("/tourisms/:id", getTourismsByUserId);
 router.post("/tourisms", upload.array("images"), createTourism);
 router.put("/tourisms/:id", upload.array("images"), updatedTourism);
 router.delete("/tourisms", deleteTourism);
