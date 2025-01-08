@@ -20,6 +20,6 @@ router.get("/tourisms", getTourisms);
 router.get("/tourisms/:id", getTourismsByUserId);
 router.post("/tourisms", upload.array("images"), createTourism);
 router.put("/tourisms/:id", upload.array("images"), updatedTourism);
-router.delete("/tourisms", deleteTourism);
+router.delete("/tourisms/:id", deleteTourism);
 
 export default router;

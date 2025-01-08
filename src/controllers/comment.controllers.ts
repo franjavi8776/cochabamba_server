@@ -317,7 +317,7 @@ export const deleteComment = async (req: Request, res: Response) => {
     const { id } = req.params;
     const comment = await Comment.findByPk(id);
     if (!comment) {
-      res.status(404).json({ message: "comentario no encontrado" });
+      res.status(404).json({ message: "Comentario no encontrado" });
     }
     await comment?.destroy();
     res.sendStatus(204);
