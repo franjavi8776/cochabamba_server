@@ -342,7 +342,20 @@ export const updatedRestaurant = async (req: Request, res: Response) => {
       }
     }
 
-    //console.log(restaurant);
+    const imagesToDelete = restaurant1.images.filter(
+      (oldImage) => !images.includes(oldImage)
+    );
+
+    for (const imageUrl of imagesToDelete) {
+      const publicId = imageUrl.split("/").pop()?.split(".")[0]; 
+      if (publicId) {
+        try {
+          await cloudinary.uploader.destroy(publicId);
+        } catch (error) {
+          console.error("Error deleting image from Cloudinary:", error);
+        }
+      }
+    }
 
     await restaurant.update({
       name: name || restaurant1.name,
