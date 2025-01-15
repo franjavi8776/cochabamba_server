@@ -88,7 +88,6 @@ export const Restaurant = sequelize.define<
   },
   web: {
     type: DataTypes.STRING,
-    defaultValue: "No hay dirección web",
   },
   time: {
     type: DataTypes.JSON,
